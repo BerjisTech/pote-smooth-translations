@@ -25,7 +25,7 @@ const pageVariants = {
 const pageTransition = {
   type: "tween",
   ease: "anticipate",
-  duration: 0.4,
+  duration: 0.3,
 };
 
 export const PageTransition = ({ children, className = "" }: PageTransitionProps) => {
@@ -36,7 +36,7 @@ export const PageTransition = ({ children, className = "" }: PageTransitionProps
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className={className}
+      className={`w-full ${className}`}
     >
       {children}
     </motion.div>

@@ -2,11 +2,15 @@
 import React from "react";
 import { Bell, HelpCircle, Search } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  title?: string;
+}
+
+const Header = ({ title = "Dashboard" }: HeaderProps) => {
   return (
     <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-background/80 backdrop-blur-md sticky top-0 z-10">
       <div className="flex items-center space-x-4">
-        <h1 className="text-xl font-medium text-foreground">Dashboard</h1>
+        <h1 className="text-xl font-medium text-foreground">{title}</h1>
       </div>
       
       <div className="flex-1 max-w-lg mx-auto">
