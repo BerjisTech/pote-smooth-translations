@@ -3,7 +3,8 @@ import React from "react";
 import Layout from "@/components/layout/Layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart, LineChart, PieChart } from "recharts";
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 // Mock data for charts
 const productivityData = [
@@ -33,6 +34,9 @@ const monthlyEarningsData = [
   { month: "Jun", earnings: 2390 },
   { month: "Jul", earnings: 3490 },
 ];
+
+// Colors for charts
+const COLORS = ["#4D9D9D", "#6BBABA", "#89D2D2", "#A8E2E2", "#C7F0F0"];
 
 const Analytics = () => {
   return (
@@ -97,9 +101,52 @@ const Analytics = () => {
                 <CardDescription>Words translated over the past week</CardDescription>
               </CardHeader>
               <CardContent className="h-[300px]">
-                <div className="h-full w-full flex items-center justify-center">
-                  <p className="text-muted-foreground">[Productivity Chart Placeholder]</p>
-                </div>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={productivityData}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#edf5f5" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Day
+                                  </span>
+                                  <span className="font-bold text-muted-foreground">
+                                    {payload[0].payload.date}
+                                  </span>
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Words
+                                  </span>
+                                  <span className="font-bold">
+                                    {payload[0].value.toLocaleString()}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+                        return null
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="words" fill="#4D9D9D" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </TabsContent>
@@ -111,9 +158,52 @@ const Analytics = () => {
                 <CardDescription>Your earnings over the past 7 months</CardDescription>
               </CardHeader>
               <CardContent className="h-[300px]">
-                <div className="h-full w-full flex items-center justify-center">
-                  <p className="text-muted-foreground">[Earnings Chart Placeholder]</p>
-                </div>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={monthlyEarningsData}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#edf5f5" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Month
+                                  </span>
+                                  <span className="font-bold text-muted-foreground">
+                                    {payload[0].payload.month}
+                                  </span>
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Earnings
+                                  </span>
+                                  <span className="font-bold">
+                                    ${payload[0].value.toLocaleString()}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+                        return null
+                      }}
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="earnings" stroke="#4D9D9D" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                  </LineChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </TabsContent>
@@ -125,9 +215,54 @@ const Analytics = () => {
                 <CardDescription>Distribution of projects by category</CardDescription>
               </CardHeader>
               <CardContent className="h-[300px]">
-                <div className="h-full w-full flex items-center justify-center">
-                  <p className="text-muted-foreground">[Project Types Chart Placeholder]</p>
-                </div>
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={projectTypeData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      paddingAngle={5}
+                      dataKey="value"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {projectTypeData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Type
+                                  </span>
+                                  <span className="font-bold text-muted-foreground">
+                                    {payload[0].name}
+                                  </span>
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                    Percentage
+                                  </span>
+                                  <span className="font-bold">
+                                    {payload[0].value}%
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+                        return null
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </TabsContent>
