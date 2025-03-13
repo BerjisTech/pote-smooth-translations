@@ -42,7 +42,7 @@ const Upcoming = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-primary-700 dark:text-primary-300">Upcoming Deadlines</h2>
-          <Badge variant="outline" className="px-3 bg-grey-25 border-grey-100">
+          <Badge variant="outline" className="px-3 bg-secondary border-primary-100">
             <Clock className="mr-1 h-3 w-3 text-primary" />
             <span className="text-primary-600">This Week</span>
           </Badge>
@@ -60,7 +60,7 @@ const Upcoming = () => {
                     {sortedProjects.map((project) => (
                       <div 
                         key={project.id} 
-                        className="flex flex-col p-4 border rounded-lg hover:bg-cards-01 dark:hover:bg-dark-blue-hue/30 transition-colors border-grey-100 dark:border-grey-700"
+                        className="flex flex-col p-4 border rounded-lg hover:bg-secondary dark:hover:bg-dark-blue-hue/30 transition-colors border-grey-100 dark:border-grey-700"
                       >
                         <div className="flex justify-between items-start mb-2">
                           <div>
@@ -71,8 +71,8 @@ const Upcoming = () => {
                             variant={getStatusVariant(project.status)}
                             className={
                               project.status === "in-progress" ? "bg-primary text-white" :
-                              project.status === "needs-review" ? "bg-secondary text-primary-800" :
-                              project.status === "completed" ? "bg-accent text-white" :
+                              project.status === "needs-review" ? "bg-secondary text-primary" :
+                              project.status === "completed" ? "bg-destructive text-white" :
                               "bg-grey-100 text-grey-700"
                             }
                           >
@@ -106,7 +106,7 @@ const Upcoming = () => {
           </div>
           
           <div>
-            <Card className="border-grey-100 shadow-custom bg-cards-01 dark:bg-dark">
+            <Card className="border-grey-100 shadow-custom bg-secondary dark:bg-dark">
               <CardHeader className="pb-2 border-b border-grey-50 dark:border-grey-700">
                 <CardTitle className="text-lg font-medium text-primary-700 dark:text-primary-300">Calendar</CardTitle>
               </CardHeader>

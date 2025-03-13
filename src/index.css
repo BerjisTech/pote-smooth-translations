@@ -1,12 +1,11 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Base colors */
-    --primary: 46, 105, 105; /* #2e6969 */
+    /* Base colors - updated primary and secondary */
+    --primary: 77, 157, 157; /* #4d9d9d */
     --primary-foreground: 255, 255, 255;
     --primary-25: 237, 245, 245; /* #EDF5F5 */
     --primary-50: 226, 235, 235;
@@ -20,9 +19,10 @@
     --primary-800: 34, 55, 55;
     --primary-900: 17, 28, 28;
     
-    --secondary: 116, 195, 194; /* #74c3c2 */
-    --secondary-foreground: 0, 0, 0;
+    --secondary: 237, 245, 245; /* #edf5f5 */
+    --secondary-foreground: 77, 157, 157; /* #4d9d9d */
     
+    /* Keep other colors the same */
     --dark: 25, 33, 50; /* #192132 */
     --black: 0, 0, 0;
     
@@ -76,7 +76,7 @@
     
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 46, 105, 105;
+    --ring: 77, 157, 157;
     
     /* Chart colors */
     --chart-1: 215 100% 60%;
@@ -93,12 +93,12 @@
     /* Sidebar specific variables */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 46 105 105;
+    --sidebar-primary: 77 157 157;
     --sidebar-primary-foreground: 255 255 255;
     --sidebar-accent: 248 247 241;
     --sidebar-accent-foreground: 222 47% 11%;
     --sidebar-border: 214 32% 91%;
-    --sidebar-ring: 46 105 105;
+    --sidebar-ring: 77 157 157;
   }
   
   .dark {
@@ -111,11 +111,11 @@
     --popover: 25 33 50;
     --popover-foreground: 210 40% 98%;
     
-    --primary: 27 59 59;
+    --primary: 77 157 157;
     --primary-foreground: 210 40% 98%;
     
-    --secondary: 60 87 57;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 237 245 245;
+    --secondary-foreground: 77 157 157;
     
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
@@ -128,17 +128,17 @@
     
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 27 59 59;
+    --ring: 77 157 157;
     
     /* Sidebar specific variables */
     --sidebar-background: 25 33 50;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 27 59 59;
+    --sidebar-primary: 77 157 157;
     --sidebar-primary-foreground: 255 255 255;
     --sidebar-accent: 217 33% 17%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 33% 17%;
-    --sidebar-ring: 27 59 59;
+    --sidebar-ring: 77 157 157;
   }
 }
 
