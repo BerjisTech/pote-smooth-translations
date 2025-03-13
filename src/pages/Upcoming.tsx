@@ -37,17 +37,14 @@ const Upcoming = () => {
                 <ScrollArea className="h-[400px] pr-4">
                   <div className="space-y-4">
                     {sortedProjects.map((project) => (
-                      <div key={project.id} className="flex flex-col p-4 border rounded-lg hover:bg-accent transition-colors">
+                      <div key={project.id} className="flex flex-col p-4 border rounded-lg hover:bg-secondary transition-colors">
                         <div className="flex justify-between items-start mb-2">
                           <div>
                             <h3 className="font-medium">{project.title}</h3>
                             <p className="text-sm text-muted-foreground">Client: {project.client}</p>
                           </div>
                           <Badge 
-                            variant={
-                              project.status === "in-progress" ? "default" : 
-                              project.status === "needs-review" ? "secondary" : "outline"
-                            }
+                            variant={getStatusVariant(project.status)}
                           >
                             {project.status === "in-progress" ? "In Progress" : 
                              project.status === "needs-review" ? "Needs Review" : 
@@ -103,7 +100,7 @@ const Upcoming = () => {
                     sortedProjects
                       .filter(project => new Date(project.deadline).toDateString() === new Date().toDateString())
                       .map(project => (
-                        <div key={project.id} className="flex items-center justify-between text-sm p-2 rounded-md bg-accent/50">
+                        <div key={project.id} className="flex items-center justify-between text-sm p-2 rounded-md bg-secondary/50">
                           <span>{project.title}</span>
                           <Badge variant="outline" className="text-xs">Due today</Badge>
                         </div>
@@ -120,6 +117,20 @@ const Upcoming = () => {
     </Layout>
   );
 };
+
+// Helper function to determine badge variant based on project status
+function getStatusVariant(status: string): "default" | "secondary" | "outline" | "destructive" {
+  switch (status) {
+    case "in-progress":
+      return "default";
+    case "needs-review":
+      return "secondary";
+    case "completed":
+      return "outline";
+    default:
+      return "outline";
+  }
+}
 
 function isUrgent(deadlineStr: string): boolean {
   const deadline = new Date(deadlineStr);
