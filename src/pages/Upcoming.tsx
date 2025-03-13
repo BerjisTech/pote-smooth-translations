@@ -16,52 +16,76 @@ const Upcoming = () => {
 
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 
+  // Helper function to format status for display
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case "in-progress": return "In Progress";
+      case "needs-review": return "Needs Review"; 
+      case "completed": return "Completed";
+      default: return "Upcoming";
+    }
+  };
+
+  // Helper function to determine badge variant based on status
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "in-progress": return "default";
+      case "needs-review": return "secondary";
+      case "completed": return "accent";
+      default: return "outline";
+    }
+  };
+
   return (
     <Layout title="Upcoming">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Upcoming Deadlines</h2>
-          <Badge variant="outline" className="px-3">
-            <Clock className="mr-1 h-3 w-3" />
-            This Week
+          <h2 className="text-2xl font-semibold text-primary-700 dark:text-primary-300">Upcoming Deadlines</h2>
+          <Badge variant="outline" className="px-3 bg-grey-25 border-grey-100">
+            <Clock className="mr-1 h-3 w-3 text-primary" />
+            <span className="text-primary-600">This Week</span>
           </Badge>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-medium">Upcoming Projects</CardTitle>
+            <Card className="border-grey-100 shadow-custom bg-white dark:bg-dark">
+              <CardHeader className="pb-2 border-b border-grey-50">
+                <CardTitle className="text-lg font-medium text-primary-700 dark:text-primary-300">Upcoming Projects</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <ScrollArea className="h-[400px] pr-4">
-                  <div className="space-y-4">
+                  <div className="space-y-4 p-4">
                     {sortedProjects.map((project) => (
-                      <div key={project.id} className="flex flex-col p-4 border rounded-lg hover:bg-accent transition-colors">
+                      <div 
+                        key={project.id} 
+                        className="flex flex-col p-4 border rounded-lg hover:bg-cards-01 dark:hover:bg-dark-blue-hue/30 transition-colors border-grey-100 dark:border-grey-700"
+                      >
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <h3 className="font-medium">{project.title}</h3>
-                            <p className="text-sm text-muted-foreground">Client: {project.client}</p>
+                            <h3 className="font-medium text-primary-800 dark:text-primary-200">{project.title}</h3>
+                            <p className="text-sm text-grey-600 dark:text-grey-400">Client: {project.client}</p>
                           </div>
                           <Badge 
-                            variant={
-                              project.status === "in-progress" ? "default" : 
-                              project.status === "needs-review" ? "secondary" : "outline"
+                            variant={getStatusVariant(project.status)}
+                            className={
+                              project.status === "in-progress" ? "bg-primary text-white" :
+                              project.status === "needs-review" ? "bg-secondary text-primary-800" :
+                              project.status === "completed" ? "bg-accent text-white" :
+                              "bg-grey-100 text-grey-700"
                             }
                           >
-                            {project.status === "in-progress" ? "In Progress" : 
-                             project.status === "needs-review" ? "Needs Review" : 
-                             project.status === "completed" ? "Completed" : "Upcoming"}
+                            {getStatusDisplay(project.status)}
                           </Badge>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-2 mt-2">
-                          <div className="flex items-center text-sm">
-                            <FileText className="mr-2 h-4 w-4 text-muted-foreground" />
+                          <div className="flex items-center text-sm text-grey-600 dark:text-grey-400">
+                            <FileText className="mr-2 h-4 w-4" />
                             <span>{project.wordCount.toLocaleString()} words</span>
                           </div>
-                          <div className="flex items-center text-sm">
-                            <CalendarClock className="mr-2 h-4 w-4 text-muted-foreground" />
+                          <div className="flex items-center text-sm text-grey-600 dark:text-grey-400">
+                            <CalendarClock className="mr-2 h-4 w-4" />
                             <span>Due {new Date(project.deadline).toLocaleDateString()}</span>
                           </div>
                         </div>
@@ -81,35 +105,35 @@ const Upcoming = () => {
           </div>
           
           <div>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-medium">Calendar</CardTitle>
+            <Card className="border-grey-100 shadow-custom bg-cards-01 dark:bg-dark">
+              <CardHeader className="pb-2 border-b border-grey-50 dark:border-grey-700">
+                <CardTitle className="text-lg font-medium text-primary-700 dark:text-primary-300">Calendar</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-4">
                 <Calendar
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  className="rounded-md border"
+                  className="rounded-md border border-grey-100 dark:border-grey-700 bg-white dark:bg-dark-blue-hue/20 p-2"
                 />
                 
-                <Separator className="my-4" />
+                <Separator className="my-4 bg-grey-100 dark:bg-grey-700" />
                 
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium">Today's Schedule</h4>
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-primary-700 dark:text-primary-300">Today's Schedule</h4>
                   {sortedProjects.filter(project => 
                     new Date(project.deadline).toDateString() === new Date().toDateString()
                   ).length > 0 ? (
                     sortedProjects
                       .filter(project => new Date(project.deadline).toDateString() === new Date().toDateString())
                       .map(project => (
-                        <div key={project.id} className="flex items-center justify-between text-sm p-2 rounded-md bg-accent/50">
-                          <span>{project.title}</span>
-                          <Badge variant="outline" className="text-xs">Due today</Badge>
+                        <div key={project.id} className="flex items-center justify-between text-sm p-3 rounded-md bg-white/50 dark:bg-dark-blue-hue/30 border border-grey-100 dark:border-grey-700">
+                          <span className="text-primary-800 dark:text-primary-200 font-medium">{project.title}</span>
+                          <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/20">Due today</Badge>
                         </div>
                       ))
                   ) : (
-                    <p className="text-sm text-muted-foreground">No deadlines for today.</p>
+                    <p className="text-sm text-grey-500 dark:text-grey-400 p-3 bg-white/50 dark:bg-dark-blue-hue/30 rounded-md border border-grey-100 dark:border-grey-700">No deadlines for today.</p>
                   )}
                 </div>
               </CardContent>
