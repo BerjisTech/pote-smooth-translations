@@ -27,11 +27,12 @@ const Upcoming = () => {
   };
 
   // Helper function to determine badge variant based on status
+  // Modified to only use supported badge variants: "default", "secondary", "outline", or "destructive"
   const getStatusVariant = (status: string) => {
     switch (status) {
       case "in-progress": return "default";
       case "needs-review": return "secondary";
-      case "completed": return "accent";
+      case "completed": return "destructive"; // Changed from "accent" to "destructive"
       default: return "outline";
     }
   };
