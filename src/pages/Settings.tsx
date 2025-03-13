@@ -1,4 +1,3 @@
-
 import React from "react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Check, Download, Globe, Moon, Sun, Upload } from "lucide-react";
+import { Check, Download, Globe, Moon, Plus, Sun, Upload } from "lucide-react";
 
 const Settings = () => {
   return (
