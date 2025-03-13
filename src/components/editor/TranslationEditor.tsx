@@ -1,149 +1,152 @@
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Save, ZapIcon } from "lucide-react";
-
-interface TranslationSegment {
-  id: number;
-  source: string;
-  target: string;
-  isCurrent: boolean;
-}
-
-const initialSegments: TranslationSegment[] = [
-  {
-    id: 1,
-    source: "The quick brown fox jumps over the lazy dog.",
-    target: "",
-    isCurrent: true,
-  },
-  {
-    id: 2,
-    source: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    target: "",
-    isCurrent: false,
-  },
-  {
-    id: 3,
-    source: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    target: "",
-    isCurrent: false,
-  },
-  {
-    id: 4,
-    source: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    target: "",
-    isCurrent: false,
-  },
-];
+import { 
+  Check, 
+  Save, 
+  History, 
+  AlertTriangle, 
+  MessageSquare, 
+  Lightbulb 
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const TranslationEditor = () => {
-  const [segments, setSegments] = useState<TranslationSegment[]>(initialSegments);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const handleSegmentClick = (id: number) => {
-    setSegments(
-      segments.map((segment) => ({
-        ...segment,
-        isCurrent: segment.id === id,
-      }))
-    );
-  };
-
-  const handleTargetChange = (id: number, value: string) => {
-    setSegments(
-      segments.map((segment) =>
-        segment.id === id ? { ...segment, target: value } : segment
-      )
-    );
-  };
-
-  const handleAIAssist = () => {
-    const currentSegment = segments.find((segment) => segment.isCurrent);
-    if (currentSegment) {
-      // In a real app, this would call an AI service
-      // For now, we'll just simulate with a basic translation
-      setTimeout(() => {
-        handleTargetChange(
-          currentSegment.id,
-          "AI-assisted translation would appear here."
-        );
-      }, 1000);
-    }
-  };
+  const [sourceText, setSourceText] = useState(
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam."
+  );
+  const [targetText, setTargetText] = useState("");
+  const [showHistory, setShowHistory] = useState(false);
 
   const handleSave = () => {
-    setIsSaving(true);
-    // Simulate saving
-    setTimeout(() => {
-      setIsSaving(false);
-    }, 1500);
+    console.log("Saving translation...");
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between py-4 px-6 border-b border-border">
-        <h2 className="text-lg font-medium">Translation Editor</h2>
-        <div className="flex items-center space-x-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleAIAssist}
-            className="flex items-center space-x-1"
-          >
-            <ZapIcon size={16} />
-            <span>AI Assist</span>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="space-y-1">
+          <h3 className="text-xl font-medium">Translation Editor</h3>
+          <p className="text-sm text-muted-foreground">
+            Translate your content with CAT tools and AI assistance
+          </p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button variant="outline" size="sm" onClick={() => setShowHistory(!showHistory)}>
+            <History className="mr-2 h-4 w-4" />
+            History
           </Button>
-          <Button
-            size="sm"
-            onClick={handleSave}
-            className="flex items-center space-x-1"
-            disabled={isSaving}
-          >
-            <Save size={16} />
-            <span>{isSaving ? "Saving..." : "Save"}</span>
+          <Button size="sm" onClick={handleSave}>
+            <Save className="mr-2 h-4 w-4" />
+            Save
           </Button>
         </div>
+      </div>
+      
+      <Separator />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardContent className="p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <h4 className="font-medium">Source Text</h4>
+              <span className="text-xs text-muted-foreground">English</span>
+            </div>
+            <Textarea 
+              className="min-h-[200px] font-mono"
+              value={sourceText}
+              onChange={(e) => setSourceText(e.target.value)}
+              placeholder="Enter source text here..." 
+            />
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <h4 className="font-medium">Target Text</h4>
+              <span className="text-xs text-muted-foreground">Spanish</span>
+            </div>
+            <Textarea 
+              className="min-h-[200px] font-mono"
+              value={targetText}
+              onChange={(e) => setTargetText(e.target.value)}
+              placeholder="Enter translation here..." 
+            />
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="flex-1 overflow-auto p-6">
-        <div className="space-y-6">
-          {segments.map((segment) => (
-            <motion.div
-              key={segment.id}
-              layout
-              className={`glass-card transition-all duration-300 ${
-                segment.isCurrent
-                  ? "border-primary border-2"
-                  : "hover:shadow-md cursor-pointer"
-              }`}
-              onClick={() => handleSegmentClick(segment.id)}
-            >
-              <div className="p-4 text-sm text-muted-foreground">
-                {segment.source}
-              </div>
-              <Separator />
-              <div className="p-4">
-                <textarea
-                  className={`w-full bg-transparent border-none outline-none resize-none text-sm ${
-                    segment.isCurrent ? "focus:outline-none" : "cursor-pointer"
-                  }`}
-                  placeholder="Enter translation here..."
-                  value={segment.target}
-                  onChange={(e) =>
-                    handleTargetChange(segment.id, e.target.value)
-                  }
-                  disabled={!segment.isCurrent}
-                  rows={2}
-                  autoFocus={segment.isCurrent}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      <Tabs defaultValue="suggestions">
+        <TabsList className="mb-2">
+          <TabsTrigger value="suggestions">
+            <Lightbulb className="h-4 w-4 mr-2" />
+            AI Suggestions
+          </TabsTrigger>
+          <TabsTrigger value="comments">
+            <MessageSquare className="h-4 w-4 mr-2" />
+            Comments
+          </TabsTrigger>
+          <TabsTrigger value="issues">
+            <AlertTriangle className="h-4 w-4 mr-2" />
+            Quality Issues
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="suggestions" className="space-y-4">
+          <Card>
+            <CardContent className="p-4">
+              <ScrollArea className="h-[200px]">
+                <div className="space-y-4">
+                  <div className="p-3 bg-muted rounded-md">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium">FindAI suggestion</p>
+                        <p className="text-sm">
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <Check className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-3 bg-muted rounded-md">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium">Translation Memory (90% match)</p>
+                        <p className="text-sm">
+                          "Nullam pulvinar risus non risus hendrerit venenatis."
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <Check className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="comments">
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">No comments yet.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="issues">
+          <Card>
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">No quality issues detected.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
