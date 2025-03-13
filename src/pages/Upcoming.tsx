@@ -45,11 +45,13 @@ const Upcoming = () => {
                           </div>
                           <Badge 
                             variant={
-                              project.status === "In Progress" ? "default" : 
-                              project.status === "Needs Review" ? "secondary" : "outline"
+                              project.status === "in-progress" ? "default" : 
+                              project.status === "needs-review" ? "secondary" : "outline"
                             }
                           >
-                            {project.status}
+                            {project.status === "in-progress" ? "In Progress" : 
+                             project.status === "needs-review" ? "Needs Review" : 
+                             project.status === "completed" ? "Completed" : "Upcoming"}
                           </Badge>
                         </div>
                         
