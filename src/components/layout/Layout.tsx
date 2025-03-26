@@ -14,7 +14,7 @@ const Layout = ({ children, title = "Dashboard" }: LayoutProps) => {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
       
-      <div className="flex-1 ml-[240px]">
+      <div className="flex-1 ml-[76px] md:ml-[250px] transition-all duration-300">
         <Header title={title} />
         
         <main className="container px-6 py-8">
