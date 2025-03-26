@@ -86,7 +86,7 @@ const Sidebar = () => {
                   >
                     <item.icon 
                       size={20} 
-                      className={({ isActive }) => 
+                      className={isActive => 
                         isActive ? "text-sidebar-primary-foreground" : ""
                       } 
                     />
