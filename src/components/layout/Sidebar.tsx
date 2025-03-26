@@ -84,13 +84,15 @@ const Sidebar = () => {
                       }`
                     }
                   >
-                    <item.icon 
-                      size={20} 
-                      className={isActive => 
-                        isActive ? "text-sidebar-primary-foreground" : ""
-                      } 
-                    />
-                    {!isCollapsed && <span>{item.label}</span>}
+                    {({ isActive }) => (
+                      <>
+                        <item.icon 
+                          size={20} 
+                          className={isActive ? "text-sidebar-primary-foreground" : ""} 
+                        />
+                        {!isCollapsed && <span>{item.label}</span>}
+                      </>
+                    )}
                   </NavLink>
                 </TooltipTrigger>
                 {isCollapsed && (
