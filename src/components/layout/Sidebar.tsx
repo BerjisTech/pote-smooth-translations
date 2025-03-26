@@ -71,28 +71,24 @@ const Sidebar = () => {
 
         <nav className="flex-1 space-y-1 px-3 overflow-y-auto scrollbar-hide">
           <TooltipProvider delayDuration={0}>
-            {navItems.map((item, index) => (
+            {navItems.map((item) => (
               <Tooltip key={item.label}>
                 <TooltipTrigger asChild>
                   <NavLink
                     to={item.href}
                     className={({ isActive }) =>
-                      `flex items-center space-x-3 px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
+                      `flex items-center ${!isCollapsed ? "justify-start" : "justify-center"} space-x-3 px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
                         isActive
                           ? "text-sidebar-primary-foreground bg-sidebar-primary font-medium shadow-sm"
                           : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent"
                       }`
                     }
                   >
-                    {({ isActive }) => (
-                      <>
-                        <item.icon 
-                          size={20} 
-                          className={isActive ? "text-sidebar-primary-foreground" : ""} 
-                        />
-                        {!isCollapsed && <span>{item.label}</span>}
-                      </>
-                    )}
+                    <item.icon 
+                      size={20} 
+                      className={({ isActive }) => isActive ? "text-sidebar-primary-foreground" : ""} 
+                    />
+                    {!isCollapsed && <span className="ml-3">{item.label}</span>}
                   </NavLink>
                 </TooltipTrigger>
                 {isCollapsed && (
@@ -106,7 +102,7 @@ const Sidebar = () => {
         </nav>
 
         <div className="px-3 mt-auto pt-4 border-t border-sidebar-border/50">
-          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'space-x-3'} p-2 rounded-lg bg-sidebar-accent/50 hover:bg-sidebar-accent transition-colors duration-200`}>
+          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start space-x-3'} p-2 rounded-lg bg-sidebar-accent/50 hover:bg-sidebar-accent transition-colors duration-200`}>
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <span className="text-sm font-medium">JD</span>
             </div>
