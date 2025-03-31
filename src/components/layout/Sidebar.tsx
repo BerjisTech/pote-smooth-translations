@@ -75,7 +75,7 @@ const Sidebar = () => {
           <TooltipProvider delayDuration={0}>
             {navItems.map(item => <Tooltip key={item.label}>
                 <TooltipTrigger asChild>
-                  <NavLink to={item.href} className="flex py-2 w-full hover:bg-slate-500/10">
+                  <NavLink to={item.href} className="flex py-2 w-full bg-transparent hover:bg-slate-500/10">
                     {({
                   isActive
                 }) => <>
