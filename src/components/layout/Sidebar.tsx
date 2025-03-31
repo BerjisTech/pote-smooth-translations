@@ -42,7 +42,7 @@ const Sidebar = () => {
         initial={{ width: isCollapsed ? 76 : 250 }}
         animate={{ width: isCollapsed ? 76 : 250 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col py-5 fixed left-0 top-0 z-10 shadow-sm"
+        className="h-screen border-r border-sidebar-border/30 flex flex-col py-5 fixed left-0 top-0 z-10 backdrop-blur-sm bg-background/80"
       >
         <div className="px-4 mb-8 flex items-center justify-between">
           {!isCollapsed && (
@@ -58,7 +58,7 @@ const Sidebar = () => {
           )}
           <button
             onClick={toggleSidebar}
-            className="rounded-full p-1.5 hover:bg-sidebar-accent text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors duration-200 ml-auto"
+            className="rounded-full p-1.5 hover:bg-slate-500/10 text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors duration-200 ml-auto"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
@@ -77,10 +77,10 @@ const Sidebar = () => {
                   <NavLink
                     to={item.href}
                     className={({ isActive }) =>
-                      `flex items-center ${!isCollapsed ? "justify-start" : "justify-center"} px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
+                      `flex items-center justify-start px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
                         isActive
-                          ? "text-sidebar-primary-foreground bg-sidebar-primary font-medium shadow-sm"
-                          : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                          ? "text-primary font-medium"
+                          : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-slate-500/10"
                       }`
                     }
                   >
@@ -88,7 +88,7 @@ const Sidebar = () => {
                       <>
                         <item.icon 
                           size={20} 
-                          className={isActive ? "text-sidebar-primary-foreground" : ""} 
+                          className={isActive ? "text-primary" : ""} 
                         />
                         {!isCollapsed && <span className="ml-3">{item.label}</span>}
                       </>
@@ -105,8 +105,8 @@ const Sidebar = () => {
           </TooltipProvider>
         </nav>
 
-        <div className="px-3 mt-auto pt-4 border-t border-sidebar-border/50">
-          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'} p-2 rounded-lg bg-sidebar-accent/50 hover:bg-sidebar-accent transition-colors duration-200`}>
+        <div className="px-3 mt-auto pt-4 border-t border-sidebar-border/30">
+          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'} p-2 rounded-lg hover:bg-slate-500/10 transition-colors duration-200`}>
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <span className="text-sm font-medium">JD</span>
             </div>
