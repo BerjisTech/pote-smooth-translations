@@ -77,18 +77,22 @@ const Sidebar = () => {
                   <NavLink
                     to={item.href}
                     className={({ isActive }) =>
-                      `flex items-center ${!isCollapsed ? "justify-start" : "justify-center"} space-x-3 px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
+                      `flex items-center ${!isCollapsed ? "justify-start" : "justify-center"} px-3 py-2.5 my-0.5 rounded-lg transition-all duration-200 ${
                         isActive
                           ? "text-sidebar-primary-foreground bg-sidebar-primary font-medium shadow-sm"
                           : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent"
                       }`
                     }
                   >
-                    <item.icon 
-                      size={20} 
-                      className={({ isActive }) => isActive ? "text-sidebar-primary-foreground" : ""} 
-                    />
-                    {!isCollapsed && <span className="ml-3">{item.label}</span>}
+                    {({ isActive }) => (
+                      <>
+                        <item.icon 
+                          size={20} 
+                          className={isActive ? "text-sidebar-primary-foreground" : ""} 
+                        />
+                        {!isCollapsed && <span className="ml-3">{item.label}</span>}
+                      </>
+                    )}
                   </NavLink>
                 </TooltipTrigger>
                 {isCollapsed && (
@@ -102,7 +106,7 @@ const Sidebar = () => {
         </nav>
 
         <div className="px-3 mt-auto pt-4 border-t border-sidebar-border/50">
-          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start space-x-3'} p-2 rounded-lg bg-sidebar-accent/50 hover:bg-sidebar-accent transition-colors duration-200`}>
+          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'} p-2 rounded-lg bg-sidebar-accent/50 hover:bg-sidebar-accent transition-colors duration-200`}>
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
               <span className="text-sm font-medium">JD</span>
             </div>
@@ -112,7 +116,7 @@ const Sidebar = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="overflow-hidden"
+                className="ml-3 overflow-hidden"
               >
                 <div className="text-sm font-medium">John Doe</div>
                 <div className="text-xs text-sidebar-foreground/60">Translator</div>
