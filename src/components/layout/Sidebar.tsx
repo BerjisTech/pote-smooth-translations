@@ -71,7 +71,7 @@ const Sidebar = () => {
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 overflow-y-auto scrollbar-hide flex flex-col items-start justify-start">
+        <nav className="flex-1 space-y-1 px-3 overflow-y-auto scrollbar-hide flex flex-col items-start justify-start pt-5">
           <TooltipProvider delayDuration={0}>
             {navItems.map(item => <Tooltip key={item.label}>
                 <TooltipTrigger asChild>
